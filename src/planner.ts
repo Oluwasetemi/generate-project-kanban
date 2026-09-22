@@ -40,7 +40,9 @@ export function planCreation(template: ProjectTemplate, answers: CreationAnswers
       ...(assessment ? { week: `Week ${assessment.week}`, assessmentWeight: assessment.weight } : {}),
     })
   }
-  if (answers.repositoryMode === 'create' && answers.inviteCollaborator)
+  const ownerLogin = answers.owner.trim().replace(/^@/, '').toLowerCase()
+  const collaboratorLogin = answers.inviteCollaborator?.trim().replace(/^@/, '').toLowerCase()
+  if (answers.repositoryMode === 'create' && answers.inviteCollaborator && ownerLogin !== collaboratorLogin)
     add('invitation', 'invitation', `Invite @${answers.inviteCollaborator}`, `invitation:${answers.owner}/${answers.repository}:${answers.inviteCollaborator}`, ['repository'], { login: answers.inviteCollaborator })
   const canonical = JSON.stringify({ template: template.id, answers, actions })
   const fingerprint = hash(canonical)

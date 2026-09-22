@@ -22,6 +22,11 @@ describe('wizard controls', () => {
 })
 
 describe('templates and validation', () => {
+  test('does not invite the repository owner as a collaborator', () => {
+    const plan = planCreation(BUILT_IN_TEMPLATES[0]!, { ...answers, owner: '@Oluwasetemi', inviteCollaborator: 'oluwasetemi' })
+    expect(plan.actions.some(action => action.kind === 'invitation')).toBe(false)
+  })
+
   test('all five built-ins satisfy the canonical contract', () => {
     expect(BUILT_IN_TEMPLATES).toHaveLength(5)
     for (const template of BUILT_IN_TEMPLATES) expect(validateTemplate(template)).toEqual({ valid: true })
