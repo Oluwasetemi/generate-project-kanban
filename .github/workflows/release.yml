@@ -59,6 +59,10 @@ jobs:
             --compile \
             --target=bun-${{ matrix.target }} \
             --outfile "dist/release/${{ matrix.executable }}"
+          if [[ "${{ matrix.target }}" != windows-* ]]; then
+            chmod +x "dist/release/${{ matrix.executable }}"
+            test -x "dist/release/${{ matrix.executable }}"
+          fi
           checksum="$(bun -e "const bytes = await Bun.file('dist/release/${{ matrix.executable }}').arrayBuffer(); const hash = await crypto.subtle.digest('SHA-256', bytes); console.log([...new Uint8Array(hash)].map(byte => byte.toString(16).padStart(2, '0')).join(''))")"
           printf '%s  %s\n' "$checksum" "${{ matrix.executable }}" > "dist/release/${{ matrix.executable }}.sha256"
 
