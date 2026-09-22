@@ -1,12 +1,13 @@
 import type { CreationPlan, ExecutionJournal, JournalAction, JournalActionState } from './domain'
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises'
+import { dirname } from 'node:path'
 
 export function journalFromPlan(plan: CreationPlan): ExecutionJournal {
   return { schemaVersion: 1, planFingerprint: plan.fingerprint, templateId: plan.templateId, answers: plan.answers, actions: plan.actions.map(action => ({ ...action, state: 'pending', reconciliationKey: `${plan.fingerprint}:${action.key}` })), updatedAt: new Date().toISOString() }
 }
 
 export async function saveJournal(path: string, journal: ExecutionJournal): Promise<void> {
-  await mkdir(path.slice(0, Math.max(0, path.lastIndexOf('/'))), { recursive: true })
+  await mkdir(dirname(path), { recursive: true })
   const temporary = `${path}.tmp`
   await writeFile(temporary, `${JSON.stringify({ ...journal, updatedAt: new Date().toISOString() }, null, 2)}\n`, 'utf8')
   await rename(temporary, path)
