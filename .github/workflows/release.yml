@@ -20,7 +20,7 @@ jobs:
             runner: ubuntu-latest
             executable: generate-project-kanban-linux-x64
           - target: darwin-x64
-            runner: macos-13
+            runner: macos-15-intel
             executable: generate-project-kanban-darwin-x64
           - target: darwin-arm64
             runner: macos-14
