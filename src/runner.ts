@@ -2,6 +2,8 @@ import type { ExecutionJournal } from './domain'
 import type { GitHubAdapter } from './github'
 import { decideResume, saveJournal, updateAction } from './journal'
 
+/** Runs the durable action state machine with persistence around every mutation. */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export async function executePlan(options: { journal: ExecutionJournal, adapter: GitHubAdapter, journalPath?: string, persist?: (journal: ExecutionJournal) => Promise<void> }): Promise<ExecutionJournal> {
   let journal = options.journal
   const persist = options.persist ?? (options.journalPath ? async (value: ExecutionJournal) => saveJournal(options.journalPath!, value) : async () => undefined)

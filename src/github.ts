@@ -118,6 +118,8 @@ export class BunGitHubAdapter implements GitHubAdapter {
     return repository.issues.nodes.filter(item => item.body?.includes(reconciliationKey)).map(item => ({ id: item.id, url: item.url }))
   }
 
+  /** Coordinates the ordered GitHub mutation types and their dependent state. */
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   async execute(action: PlanAction, reconciliationKey: string): Promise<GitHubResource> {
     if (action.kind === 'repository') {
       const createPath = this.ownerIsOrganization ? `/orgs/${encodeURIComponent(this.owner)}/repos` : '/user/repos'

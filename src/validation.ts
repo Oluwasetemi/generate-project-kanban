@@ -21,6 +21,8 @@ export function canonicalMilestones() {
   }))
 }
 
+/** Reports every template invariant failure in one pass. */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export function validateTemplate(template: ProjectTemplate): ValidationResult {
   const errors: string[] = []
   if (template.version !== 1 || !template.id || !template.name || !template.summary || template.stack.length === 0)

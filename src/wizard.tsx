@@ -78,6 +78,8 @@ export function PreviewWizard({ onExecute }: { onExecute?: WizardExecution } = {
     const token = extractGithubToken(new TextDecoder().decode(result.representation.bytes))
     setState(current => token ? { ...current, token, phase: 'repository', error: undefined } : { ...current, error: 'Clipboard does not contain a recognised GitHub token.' })
   }
+  // This handler is the wizard's single keyboard state machine.
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   useKeyboard((key) => {
     if (isQuitKey(key)) {
       renderer.destroy()

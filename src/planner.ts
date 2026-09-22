@@ -6,6 +6,8 @@ function hash(value: string): string {
   return (result >>> 0).toString(16).padStart(8, '0')
 }
 
+/** Keeps the generated action graph in dependency order. */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export function planCreation(template: ProjectTemplate, answers: CreationAnswers): CreationPlan {
   const actions: PlanAction[] = []
   const epicLabel = (name: string) => name.includes(': ') ? name.slice(name.indexOf(': ') + 2) : name
